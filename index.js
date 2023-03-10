@@ -6,16 +6,9 @@ const app = express();
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv')
 dotenv.config()
+app.use(cors({credentials:true,origin:'https://redphantom-faq-frontend.vercel.app'}));
 
 app.use(express.json());
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-  });
-
 mongoose.connect(process.env.MONGODB_URL)
 .then(() => app.listen(4000,()=>
 console.log("connected to DB and Server")
