@@ -16,6 +16,7 @@ app.use(function (req, res, next) {
   next();
   });
 
+app.use(cors({credentials:true,origin:'https://redphantom-faq-frontend.vercel.app'}));
 mongoose.connect(process.env.MONGODB_URL)
 .then(() => app.listen(4000,()=>
 console.log("connected to DB and Server")
