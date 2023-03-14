@@ -6,13 +6,26 @@ const app = express();
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv')
 dotenv.config()
-app.use(cors({credentials:true,origin:'https://redphantom-faq-frontend.vercel.app'}));
 
 app.use(express.json());
 mongoose.connect(process.env.MONGODB_URL)
 .then(() => app.listen(4000,()=>
 console.log("connected to DB and Server")
 )).catch((e)=>console.log(e));
+
+app.use(function (req, res, next) {
+  const allowedOrigins = ['https://redphantom-faq-frontend-66zi.vercel.app/'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+  res.setHeader('Access-Control-Allow-Origin','https://redphantom-faq-frontend-66zi.vercel.app/');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  }
+  return next();
+  });
+
+
 
 app.post('/register', async (req,res) => {
   const {name, email, question, message, answer} = req.body;
